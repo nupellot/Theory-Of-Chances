@@ -1,17 +1,15 @@
-import matplotlib.pyplot as graph
+import matplotlib.pyplot as plt
 
-R = [2, 8, 11, 9]
-G = [1, 5, 8, 6]
-B = [2, 7, 11, 8]
+R = [2, 8, 11, 5]
+G = [1, 10, 6, 10]
+B = [2, 9, 11, 7]
 RGB = [5, 27, 28, 22]
 
-callPeriod = R[1]  # Среднее время между звонками клиентов.
-servicePeriod = G[1] + B[1] + RGB[2]  # Среднее время обслуживания.
+Tc = R[1]
+Ts = G[1] + B[1] + RGB[2]
 
-
-# Интенсивности потоков.
-l = 1 / callPeriod  # Лямбда. [з/с]
-m = 1 / servicePeriod  # Мю. [з/с]
+l = 1 / Tc      #
+m = 1 / Ts      # интенсивность потока обслуживания
 p = l / m
 A = [1] #       1 / 0!,      p / 1!,              p^2 / 2!,                p^3 / 3!,        p^4 / 4!, ...
 P0 = [1] #      1 / 1,  1 / (1 + p),    1 / (1 + p + p^2 / 2!),  1 / (1 + p + p^2 / 2! + p^3 / 3!) ...
@@ -94,25 +92,25 @@ print(f"check(n, k) = {check(5, 3)}")
 # def que(n):
 #     x = [i for i in range(1, n + 1)]
 #     y = [Q[n][i] for i in x]
-#     graph.title(f"L оч, n = {n}")  # заголовок
-#     graph.xlabel("k")  # ось абсцисс
-#     graph.ylabel("L")  # ось ординат
-#     graph.grid()  # включение отображение сетки
-#     graph.plot(x, y)
-#     graph.show()
-#     graph.legend()
+#     plt.title(f"L оч, n = {n}")  # заголовок
+#     plt.xlabel("k")  # ось абсцисс
+#     plt.ylabel("L")  # ось ординат
+#     plt.grid()  # включение отображение сетки
+#     plt.plot(x, y)
+#     plt.show()
+#     plt.legend()
 
 
 def Potk(n):
     x = [i for i in range(k + 1)]
-    y = [P0Q[n][i] * Q[n][i] for i in x]
-    # y[0] = 1
-    graph.title(f"P отк")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("P")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x, y, label=f"n={n}")
-    graph.legend()
+    y = [P0Q[i][n] * Q[i][n] for i in x]
+    y[0] = 1
+    plt.title(f"P отк")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("P")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
 def Mzan1(n, k):
@@ -124,30 +122,30 @@ def Mzan1(n, k):
     return res
 
 
-def Mzan(k):
-    x = [i for i in range(1, n + 1)]
-    y = [Mzan1(i, k) for i in x]
-    graph.title(f"M зан")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("M")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x, y, label=f"k = {k}")
-    graph.legend()
+def Mzan(n):
+    x = [i for i in range(1, k + 1)]
+    y = [Mzan1(n, i) for i in x]
+    plt.title(f"M зан")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("M")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"n = {n}")
+    plt.legend()
 
 
 def Kzagr1(n, k):
     return Mzan1(n, k) / n
 
 
-def Kzagr(k):
-    x = [i for i in range(1, n + 1)]
-    y = [Kzagr1(i, k) for i in x]
-    graph.title(f"K загр")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("K")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x, y, label=f"k = {k}")
-    graph.legend()
+def Kzagr(n):
+    x = [i for i in range(1, k + 1)]
+    y = [Kzagr1(n, i) for i in x]
+    plt.title(f"K загр")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("K")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
 def Pque1(n, k):
@@ -157,16 +155,16 @@ def Pque1(n, k):
     return res
 
 
-def Pque(k):
-    x = [i for i in range(n + 1)]
-    y = [Pque1(i, k) for i in x]
-    y[0] = 1
-    graph.title(f"P оч")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("P")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x, y, label=f"k = {k}")
-    graph.legend()
+def Pque(n):
+    x = [i for i in range(k + 1)]
+    y = [Pque1(n, i) for i in x]
+    y[0] = 0
+    plt.title(f"P оч")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("P")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
 def MlenQ1(n, k):
@@ -176,54 +174,54 @@ def MlenQ1(n, k):
     return res
 
 
-def MlenQ(k):
-    x = [i for i in range(n + 1)]
-    y = [MlenQ1(i, k) for i in x]
-    # y[0] = 0
-    graph.title(f"M длины очереди")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("M")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x[1:], y[1:], label=f"k = {k}")
-    graph.legend()
+def MlenQ(n):
+    x = [i for i in range(k + 1)]
+    y = [MlenQ1(n, i) for i in x]
+    y[0] = 0
+    plt.title(f"M длины очереди")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("M")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
 def KzanQ1(n, k):
     return MlenQ1(n, k) / k
 
 
-def KzanQ(k):
-    x = [i for i in range(1, n + 1)]
-    y = [KzanQ1(i, k) for i in x]
-    # y[0] = 0
-    graph.title(f"K занятости очереди")  # заголовок
-    graph.xlabel("n")  # ось абсцисс
-    graph.ylabel("M")  # ось ординат
-    graph.grid()  # включение отображение сетки
-    graph.plot(x, y, label=f"k = {k}")
-    graph.legend()
+def KzanQ(n):
+    x = [i for i in range(1, k + 1)]
+    y = [KzanQ1(n, i) for i in x]
+    y[0] = 0
+    plt.title(f"K занятости очереди")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("M")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     Potk(i)
-graph.show()
+plt.show()
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     Mzan(i)
-graph.show()
+plt.show()
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     Kzagr(i)
-graph.show()
+plt.show()
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     Pque(i)
-graph.show()
+plt.show()
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     MlenQ(i)
-graph.show()
+plt.show()
 
-for i in range(1, k + 1):
+for i in range(1, n + 1):
     KzanQ(i)
-graph.show()
+plt.show()
