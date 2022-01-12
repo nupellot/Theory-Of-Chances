@@ -6,6 +6,8 @@ G = [1, 5, 8, 6]
 B = [2, 7, 11, 8]
 RGB = [5, 27, 28, 22]
 
+OPS = 13  # Вычисленное в прошлом пункте число операторов. Выступает верхней границей в данном пункте.
+
 callPeriod = R[1]  # Среднее время между звонками клиентов.
 servicePeriod = G[1] + B[1] + RGB[2]  # Среднее время обслуживания.
 
@@ -14,10 +16,10 @@ l = 1 / callPeriod  # Лямбда. [з/с]
 m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 
-# Расчитываем все вероятности состояний
-probs = [[[0] for i in range(0, 13)] for j in range(0, 13)]
-for n in range(1, 13):  # n = Число операторов.
-	for m in range(0, 13):  # m = Число мест в очереди.
+# Расчитываем все вероятности состояний.
+probs = [[[0] for i in range(0, OPS)] for j in range(0, OPS)]
+for n in range(1, OPS):  # n = Число операторов.
+	for m in range(0, OPS):  # m = Число мест в очереди.
 		denominator = 0
 		# Проходим по всем операторам.
 		for i in range(0, n + 1):
@@ -37,44 +39,44 @@ for n in range(1, 13):  # n = Число операторов.
 
 
 # Сохраняем вероятности отказа.
-chanceOfRefuse = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(0, 13):
+chanceOfRefuse = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(0, OPS):
 		chanceOfRefuse[n][m] = probs[n][m][-1]
 
 # Сохраняем мат. ожидания числа занятых операторов.
-MBusyOps = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(0, 13):
+MBusyOps = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(0, OPS):
 		for i in range(0, n + m + 1):
 			if (i <=n): MBusyOps[n][m] += probs[n][m][i] * i
 			if (i > n): MBusyOps[n][m] += probs[n][m][i] * n
 
 # Сохраняем коэффициенты загрузки операторов.
-KBusyOps = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(0, 13):
+KBusyOps = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(0, OPS):
 		for i in range(0, n + m + 1):
 			KBusyOps[n][m] = MBusyOps[n][m] / n
 
 # Сохраняем вероятности существования очереди.
-chanceOfQueue = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(0, 13):
+chanceOfQueue = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(0, OPS):
 		for i in range(0, n + m + 1):
 			if (i > n): chanceOfQueue[n][m] += probs[n][m][i]
 
 # Сохраняем мат. ожидания длины очереди.
-MQueueLength = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(0, 13):
+MQueueLength = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(0, OPS):
 		for i in range(0, n + m + 1):
 			if (i > n): MQueueLength[n][m] += probs[n][m][i] * m
 
 # Сохраняем коэффициенты занятости мест в очереди.
-KQueueBusy = [[0]*13 for i in range(0,13)]
-for n in range(1, 13):
-	for m in range(1, 13):
+KQueueBusy = [[0]*OPS for i in range(0,OPS)]
+for n in range(1, OPS):
+	for m in range(1, OPS):
 		for i in range(0, n + m + 1):
 			KQueueBusy[n][m] = MQueueLength[n][m] / m
 
@@ -84,7 +86,7 @@ for n in range(1, 13):
 
 # Функция вывода вероятности отказа.
 def drawChanceOfRefuse(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [chanceOfRefuse[i][m] for i in x]
     graph.title("Вероятность отказа")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -92,13 +94,13 @@ def drawChanceOfRefuse(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawChanceOfRefuse(i)
 graph.show()
 
 # Функция вывода мат. ожидания числа занятых операторов.
 def drawMBusyOps(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [MBusyOps[i][m] for i in x]
     graph.title("Мат. Ожидание числа занятых операторов")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -106,13 +108,13 @@ def drawMBusyOps(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawMBusyOps(i)
 graph.show()
 
 # Функция вывода коэффициента загрузки операторов.
 def drawKBusyOps(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [KBusyOps[i][m] for i in x]
     graph.title("Коэффициент загрузки операторов")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -120,13 +122,13 @@ def drawKBusyOps(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawKBusyOps(i)
 graph.show()
 
 # Функция вывода вероятности существования очереди.
 def drawChanceOfQueue(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [chanceOfQueue[i][m] for i in x]
     graph.title("Вероятность существования очереди")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -134,13 +136,13 @@ def drawChanceOfQueue(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawChanceOfQueue(i)
 graph.show()
 
 # Функция вывода мат. ожидания длины очереди.
 def drawMQueueLength(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [MQueueLength[i][m] for i in x]
     graph.title("Мат. Ожидание длины очереди")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -148,13 +150,13 @@ def drawMQueueLength(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawMQueueLength(i)
 graph.show()
 
 # Функция коэффициента занятости мест в очереди.
 def drawKQueueBusy(m):
-    x = [i for i in range(1, 13)]
+    x = [i for i in range(1, OPS)]
     y = [KQueueBusy[i][m] for i in x]
     graph.title("Коэффициент занятости мест в очереди")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
@@ -162,6 +164,6 @@ def drawKQueueBusy(m):
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"m = {m}")
     graph.legend()
-for i in range(1, 13):
+for i in range(1, OPS):
     drawKQueueBusy(i)
 graph.show()
