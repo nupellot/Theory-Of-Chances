@@ -83,84 +83,84 @@ for n in range(1, 13):
 
 
 # Функция вывода вероятности отказа.
-def drawChanceOfRefuse(m):
-    x = [i for i in range(1, 13)]
-    y = [chanceOfRefuse[i][m] for i in x]
+def drawChanceOfRefuse(n):
+    x = [i for i in range(0, 13)]
+    y = [chanceOfRefuse[n][i] for i in x]
     graph.title("Вероятность отказа")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("P")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawChanceOfRefuse(i)
 graph.show()
 
 # Функция вывода мат. ожидания числа занятых операторов.
-def drawMBusyOps(m):
-    x = [i for i in range(1, 13)]
-    y = [MBusyOps[i][m] for i in x]
+def drawMBusyOps(n):
+    x = [i for i in range(0, 13)]
+    y = [MBusyOps[n][i] for i in x]
     graph.title("Мат. Ожидание числа занятых операторов")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawMBusyOps(i)
 graph.show()
 
 # Функция вывода коэффициента загрузки операторов.
-def drawKBusyOps(m):
-    x = [i for i in range(1, 13)]
-    y = [KBusyOps[i][m] for i in x]
+def drawKBusyOps(n):
+    x = [i for i in range(0, 13)]
+    y = [KBusyOps[n][i] for i in x]
     graph.title("Коэффициент загрузки операторов")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("K")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawKBusyOps(i)
 graph.show()
 
 # Функция вывода вероятности существования очереди.
-def drawChanceOfQueue(m):
-    x = [i for i in range(1, 13)]
-    y = [chanceOfQueue[i][m] for i in x]
+def drawChanceOfQueue(n):
+    x = [i for i in range(0, 13)]
+    y = [chanceOfQueue[n][i] for i in x]
     graph.title("Вероятность существования очереди")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("P")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawChanceOfQueue(i)
 graph.show()
 
 # Функция вывода мат. ожидания длины очереди.
-def drawMQueueLength(m):
-    x = [i for i in range(1, 13)]
-    y = [MQueueLength[i][m] for i in x]
+def drawMQueueLength(n):
+    x = [i for i in range(0, 13)]
+    y = [MQueueLength[n][i] for i in x]
     graph.title("Мат. Ожидание длины очереди")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawMQueueLength(i)
 graph.show()
 
 # Функция коэффициента занятости мест в очереди.
-def drawKQueueBusy(m):
-    x = [i for i in range(1, 13)]
-    y = [KQueueBusy[i][m] for i in x]
+def drawKQueueBusy(n):
+    x = [i for i in range(0, 13)]
+    y = [KQueueBusy[n][i] for i in x]
     graph.title("Коэффициент занятости мест в очереди")  # Название графика.
-    graph.xlabel("n")  # Подпись оси абсцисс.
+    graph.xlabel("m")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"m = {m}")
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 for i in range(1, 13):
     drawKQueueBusy(i)
