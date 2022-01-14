@@ -17,55 +17,54 @@ l = 1 / callPeriod  # Лямбда. [з/с]
 m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 v = 1 / waitingTime  # Ожидание.
-eps = 10**-3
+eps = 10**-2
 
-probs = [[0]*1 for i in range(0, OPS)]  # Все возможные вероятности.
+queueLength = 5
+
+probs = [[] for i in range(0, OPS)]  # Все возможные вероятности.
 # Считаем все возможные вероятности.
 for n in range(1, OPS):
-    queueLength = 1
-    denominator = 0
-    for i in range(0, n + 1):
-        denominator += p**i / math.factorial(i)
-    for i in range(1, queueLength + 1):
-        denominator += p**n / math.factorial(n) * (l / (n * m + i * v))**i
-
-    p0 = 1 / denominator
-    probs[n][0] = p0
-    for i in range(1, n + 1):
-        probs[n].append(p**i * p0 / math.factorial(i))
-    for i in range(n + 1, n + queueLength + 1):
-        probs[n].append(p**i * p0 / math.factorial(n) / n**i)
-
-    while math.fabs(probs[n][-1] - probs[n][-2] > eps):
-        print(probs[n][-1])
-        print(probs[n][-2])
+    while True:
+        probs[n].clear()
         queueLength += 1
         denominator = 0
-        probs[n].clear()
-        probs[n].append(p0)
         for i in range(0, n + 1):
             denominator += p**i / math.factorial(i)
-        for i in range(1, queueLength + 1):
-            denominator += p**n / math.factorial(n) * (l / (n * m + i * v))**i
 
-        print(p0)
+        # summ = 0
+        for i in range(1, queueLength + 1):
+            multiplication = 1
+            for j in range(1, i + 1):
+                multiplication *= (n * m + j * v)
+            denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
+        # denominator += summ
+
         p0 = 1 / denominator
-        probs[n][0] = p0
+        probs[n].append(p0)
         for i in range(1, n + 1):
-            probs[n].append(p**i * p0 / math.factorial(i))
-        for i in range(n + 1, n + queueLength + 1):
-            # print(n)
-            # print(i)
-            kek = (p**i * p0 / (math.factorial(n) * n**i))
-            probs[n].append(kek)
+            probs[n].append(p0 * p**i / math.factorial(i))
+        for i in range(1, queueLength + 1):
+            multiplication = 1
+            for j in range(1, i + 1):
+                multiplication *= (n * m + j * v)
+            probs[n].append(p0 * l**(i + n) / (math.factorial(n) * m**n * multiplication))
+        if (math.fabs(probs[n][-1] - probs[n][-2]) < eps): break
+
+
+
+    sum = 0
+    for i in range(1, len(probs[n])):
+        sum += probs[n][i]
+        print(' + (', n, ':', i, ') ', probs[n][i])
+    print(sum)
 
 
 # Сохраняем мат. ожидания числа занятых операторов.
-MBusyOps = [] * OPS
+MBusyOps = [0] * OPS
 for n in range(1, OPS):
     for i in range(0, n + 1):
         MBusyOps[n] += i * probs[n][i]
-    for i in range(n + 1, len(probs[n]) + 2):
+    for i in range(n + 1, len(probs[n])):
         MBusyOps[n] += n * probs[n][i]
 
 
