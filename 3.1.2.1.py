@@ -37,6 +37,12 @@ for n in range(1, OPS):  # n = Число операторов.
 		for i in range(n + 1, n + m + 1):
 			probs[n][m].append(p0 * p**i / math.factorial(n) / n**(i - n))
 
+		# sum = 0
+		# if n == 5:
+		# 	for i in range(1, len(probs[n][m])):
+		# 		sum += probs[n][m][i]
+		# 		print(' + (', n, ':', m, ':', i, ') ', probs[n][m][i])
+		# 	print('n:', n, ' m:', m, ':', sum)
 
 # Сохраняем вероятности отказа.
 chanceOfRefuse = [[0]*OPS for i in range(0,OPS)]
