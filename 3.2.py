@@ -70,8 +70,7 @@ for n in range(1, amountOfMachines):
 # Сохраняем коэффициенты занятости наладчиков.
 KBusyFixers = [0] * amountOfMachines
 for n in range(1, amountOfMachines):
-    for i in range(n + 1, amountOfMachines + 1):
-        KBusyFixers[n] += MBusyFixers[n] / n
+    KBusyFixers[n] = MBusyFixers[n] / n
 
 
 
@@ -100,7 +99,7 @@ graph.show()
 y = [MBusyFixers[i] for i in x]
 graph.title("Мат. ожидание числа занятых наладчиков")  # Название графика.
 graph.xlabel("n")  # Подпись оси абсцисс.
-graph.ylabel("P")  # Подпись оси ординат.
+graph.ylabel("M")  # Подпись оси ординат.
 graph.bar(x, y)
 graph.show()
 
