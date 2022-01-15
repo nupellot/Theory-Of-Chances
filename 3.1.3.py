@@ -17,32 +17,27 @@ m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 print(p)
 
-
+# Находим минимальное количество операторов, при котором
 lowBound = 1
 n = 1
 while p / n >= 1:
 	lowBound += 1
 	n += 1
 
-# Для дальнейших вычислений находим вероятности того, что система находится в состоянии Sn
-Pns = [0] * OPS
+# Для дальнейших вычислений находим вероятности того, что система находится в состоянии P0
+P0s = [0] * OPS
 for n in range(lowBound, OPS):  # Варьируем число операторов.
-	if (p / n <= 1):  # В иных случаях очередь будет бесконечно возрастать.
-		denominator = 0
-		# Занимаем операторов.
-		for i in range(0, n + 1):
-			denominator += p**i / math.factorial(i)
-		# Занимаем места в очереди.
-		a = p / n
-		if (a < 1):
-			denominator += p**n / math.factorial(n) * (a) / (1 - a)
-		Pns[n] = 1 / denominator
+	denominator = 0
+	# Занимаем операторов.
+	for i in range(0, n + 1):
+		denominator += p**i / math.factorial(i)
+	denominator += p**n / (math.factorial(n) * (n - p))
+	P0s[n] = 1 / denominator
 
 # Сохраняем мат. ожидания числа занятых операторов.
 MBusyOps = [0] * OPS
 for n in range(lowBound, OPS):
-	if (p / n <= 1):  # В иных случаях очередь будет бесконечно возрастать.
-		MBusyOps[n] = p
+	MBusyOps[n] = p
 
 # Сохраняем коэффициенты загрузки операторов.
 KBusyOps = [0] * OPS
@@ -55,27 +50,26 @@ for n in range(lowBound, OPS):
 	a = p / n
 	print(p)
 	print(n)
-	queueExists[n] = Pns[n] * a / (1 - a)
+	queueExists[n] = p**(n + 1) * P0s[n] / (math.factorial(n) * (n - p))
 
 # Сохраняем мат. ожидания длины очереди.
 MQueueLength = [0] * OPS
 for n in range(lowBound, OPS):
 	a = p / n
-	MQueueLength[n] = a * Pns[n] / (1 - a)**2
+	MQueueLength[n] = p**(n + 1) * P0s[n] / (n * math.factorial(n) * (1 - p / n)**2)
 
 
 
 
 # Функция вывода мат. ожидания числа занятых операторов.
 def drawMBusyOps():
-    x = [i for i in range(lowBound, OPS)]
+    x = range(lowBound, OPS)
     y = [MBusyOps[i] for i in x]
     graph.title("Мат. ожидание числа занятых операторов")  # Название графика.
     graph.xlabel("n")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"n = {n}")
-    graph.legend()
+    graph.plot(x, y)
 drawMBusyOps()
 graph.show()
 
@@ -88,7 +82,6 @@ def drawKBusyOps():
     graph.ylabel("K")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"n = {n}")
-    graph.legend()
 drawKBusyOps()
 graph.show()
 
@@ -101,7 +94,6 @@ def drawQueueExists():
     graph.ylabel("P")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"n = {n}")
-    graph.legend()
 drawQueueExists()
 graph.show()
 
@@ -114,6 +106,5 @@ def drawMQueueLength():
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
     graph.plot(x, y, label=f"n = {n}")
-    graph.legend()
 drawMQueueLength()
 graph.show()

@@ -4,7 +4,7 @@ import math
 R = [2, 8, 11, 9]
 G = [1, 5, 8, 6]
 B = [2, 7, 11, 8]
-RGB = [5, 27, 28, 22]
+RGB = [5, 20, 30, 23]
 
 OPS = 13  # Вычисленное в прошлом пункте число операторов. Выступает верхней границей в данном пункте.
 
@@ -31,18 +31,11 @@ for n in range(1, OPS):  # n = Число операторов.
 
 		# Считаем вероятности различных состояний системы.
 		probs[n][m][0] = p0
-		# print('p0 = ', p0)
 		for i in range(1, n + 1):
 			probs[n][m].append(p0 * p**i / math.factorial(i))
 		for i in range(n + 1, n + m + 1):
 			probs[n][m].append(p0 * p**i / math.factorial(n) / n**(i - n))
 
-		# sum = 0
-		# if n == 5:
-		# 	for i in range(1, len(probs[n][m])):
-		# 		sum += probs[n][m][i]
-		# 		print(' + (', n, ':', m, ':', i, ') ', probs[n][m][i])
-		# 	print('n:', n, ' m:', m, ':', sum)
 
 # Сохраняем вероятности отказа.
 chanceOfRefuse = [[0]*OPS for i in range(0,OPS)]
