@@ -17,7 +17,7 @@ l = 1 / callPeriod  # Лямбда. [з/с]
 m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 v = 1 / waitingTime  # Ожидание.
-eps = 10**-3
+eps = 10**-10
 
 queueLength = 0
 
@@ -27,20 +27,29 @@ P0s = [[]]
 for n in range(1, OPS):
     queueLength = 0
     P0s.append([])
-    while True:
+    while True:  # Увеличиваем длину очереди
         probs[n].clear()
         denominator = 0
 
         for i in range(0, n + 1):
             denominator += p**i / math.factorial(i)
 
-        summ = 0
+        # summ = 0
+        # for i in range(1, queueLength + 1):
+        #     multiplication = 1
+        #     for j in range(1, i + 1):
+        #         multiplication *= (n * m + l * v)
+        #     summ += l**i / multiplication
+        # denominator += p**n / math.factorial(n) * summ
+
+        # summ = 0
         for i in range(1, queueLength + 1):
             multiplication = 1
             for j in range(1, i + 1):
-                multiplication *= (n * m + l * v)
-            summ += l**i / multiplication
-        denominator += p**n / math.factorial(n) * summ
+                multiplication *= (n * m + j * v)
+            denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
+        # denominator += summ
+
 
         p0 = 1 / denominator
         probs[n].append(p0)
@@ -54,7 +63,8 @@ for n in range(1, OPS):
             for j in range(1, i + 1):
                 multiplication *= (n * m + j * v)
             probs[n].append(p0 * l**(i + n) / (math.factorial(n) * m**n * multiplication))
-        if (len(P0s[n]) >= 3):
+
+        if (len(P0s[n]) >= 2):
             if (math.fabs(P0s[n][-1] - P0s[n][-2]) < eps): break
         queueLength += 1
 
@@ -118,7 +128,7 @@ def drawMBusyOps():
     graph.bar(x, y)
     graph.legend()
 drawMBusyOps()
-# graph.show()
+graph.show()
 
 # Функция вывода коэффициентов загрузки операторов.
 def drawKBusyOps():
@@ -131,7 +141,7 @@ def drawKBusyOps():
     graph.bar(x, y)
     graph.legend()
 drawKBusyOps()
-# graph.show()
+graph.show()
 
 # Функция вывода вероятности существования очереди.
 def drawQueueExists():
@@ -144,7 +154,7 @@ def drawQueueExists():
     graph.bar(x, y)
     graph.legend()
 drawQueueExists()
-# graph.show()
+graph.show()
 
 # Функция вывода мат. ожидания длины очереди.
 def drawMQueueLength():
@@ -157,4 +167,4 @@ def drawMQueueLength():
     graph.bar(x, y)
     graph.legend()
 drawMQueueLength()
-# graph.show()
+graph.show()
