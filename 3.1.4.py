@@ -17,7 +17,7 @@ l = 1 / callPeriod  # Лямбда. [з/с]
 m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 v = 1 / waitingTime  # Ожидание.
-eps = 10**-10
+eps = 10**-3
 
 queueLength = 0
 
@@ -29,16 +29,7 @@ for n in range(1, OPS):
     P0s.append([])
     while True:
         probs[n].clear()
-        queueLength += 1
         denominator = 0
-        # for i in range(0, n + 1):
-        #     denominator += p**i / math.factorial(i)
-        #
-        # for i in range(1, queueLength + 1):
-        #     multiplication = 1
-        #     for j in range(1, i + 1):
-        #         multiplication *= (n * m + j * v)
-        #     denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
 
         for i in range(0, n + 1):
             denominator += p**i / math.factorial(i)
@@ -63,15 +54,11 @@ for n in range(1, OPS):
             for j in range(1, i + 1):
                 multiplication *= (n * m + j * v)
             probs[n].append(p0 * l**(i + n) / (math.factorial(n) * m**n * multiplication))
-        if (math.fabs(probs[n][-1] - probs[n][-2]) < eps): break
+        if (len(P0s[n]) >= 3):
+            if (math.fabs(P0s[n][-1] - P0s[n][-2]) < eps): break
+        queueLength += 1
 
 
-
-    # sum = 0
-    # for i in range(1, len(probs[n])):
-    #     sum += probs[n][i]
-    #     print(' + (', n, ':', i, ') ', probs[n][i])
-    # print(sum)
 
 
 # Сохраняем мат. ожидания числа занятых операторов.
