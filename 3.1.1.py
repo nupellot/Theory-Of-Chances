@@ -4,10 +4,11 @@ import math as math
 R = [2, 8, 11, 9]
 G = [1, 5, 8, 6]
 B = [2, 7, 11, 8]
-RGB = [5, 20, 30, 22]
+RGB = [5, 20, 30, 23]
 
 callPeriod = R[1]  # Среднее время между звонками клиентов.
 servicePeriod = G[1] + B[1] + RGB[2]  # Среднее время обслуживания.
+
 
 # Интенсивности потоков.
 l = 1 / callPeriod  # Лямбда. [з/с]
@@ -41,7 +42,8 @@ while POfRefuse[n] > 0.01:
 print(n)
 
 
-x = [i for i in range(0, n + 1)]
+
+x = [i for i in range(1, n + 1)]
 y = [POfRefuse[i] for i in x]
 graph.title("Вероятность отказа от числа операторов")  # заголовок
 graph.xlabel("n")  # ось абсцисс
@@ -50,8 +52,6 @@ graph.grid()  # включение отображение сетки
 graph.bar(x, y)
 graph.show()
 
-
-
 y = [MBusyOps[i] for i in x]
 graph.title("Мат. Ожидание числа занятых операторов")  # заголовок
 graph.xlabel("n")  # ось абсцисс
@@ -59,8 +59,6 @@ graph.ylabel("M")  # ось ординат
 graph.grid()  # включение отображение сетки
 graph.bar(x, y)
 graph.show()
-
-
 
 y = [KBusyOps[i] for i in x]
 graph.title("Коэффициент загрузки операторов от их числа")  # заголовок

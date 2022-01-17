@@ -4,7 +4,7 @@ import math
 R = [2, 8, 11, 9]
 G = [1, 5, 8, 6]
 B = [2, 7, 11, 8]
-RGB = [5, 27, 28, 22]
+RGB = [5, 20, 30, 23]
 
 OPS = 13  # Вычисленное в прошлом пункте число операторов. Выступает верхней границей в данном пункте.
 
@@ -29,34 +29,41 @@ P0s = [0] * OPS
 for n in range(lowBound, OPS):  # Варьируем число операторов.
 	denominator = 0
 	# Занимаем операторов.
+	a = p / n
 	for i in range(0, n + 1):
 		denominator += p**i / math.factorial(i)
-	denominator += p**n / (math.factorial(n) * (n - p))
+	denominator += p**n * a / (math.factorial(n) * (1 - a))
 	P0s[n] = 1 / denominator
 
 # Сохраняем мат. ожидания числа занятых операторов.
 MBusyOps = [0] * OPS
 for n in range(lowBound, OPS):
-	MBusyOps[n] = p
+	a = p / n
+	summ = 0
+	for i in range(0, n + 1):
+		summ += (i * p**i) / math.factorial(i)
+	summ += (n * p**n * a) / (math.factorial(n) * (1 - a))
+	summ *= P0s[n]
+	MBusyOps[n] = summ
 
 # Сохраняем коэффициенты загрузки операторов.
 KBusyOps = [0] * OPS
-for n in range(1, OPS):
+for n in range(lowBound, OPS):
 	KBusyOps[n] = MBusyOps[n] / n
 
 # Сохраняем вероятности существования очереди.
 queueExists = [0] * OPS
 for n in range(lowBound, OPS):
-	a = p / n
 	print(p)
+	a = p / n
 	print(n)
-	queueExists[n] = p**(n + 1) * P0s[n] / (math.factorial(n) * (n - p))
+	queueExists[n] = (p**(n) * P0s[n] * a) / (math.factorial(n) * (1 - a))
 
 # Сохраняем мат. ожидания длины очереди.
 MQueueLength = [0] * OPS
 for n in range(lowBound, OPS):
 	a = p / n
-	MQueueLength[n] = p**(n + 1) * P0s[n] / (n * math.factorial(n) * (1 - p / n)**2)
+	MQueueLength[n] = (p**(n) * P0s[n] * a) / (math.factorial(n) * (1 - a)**2)
 
 
 
