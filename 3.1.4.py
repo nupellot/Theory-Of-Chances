@@ -31,14 +31,25 @@ for n in range(1, OPS):
         probs[n].clear()
         queueLength += 1
         denominator = 0
+        # for i in range(0, n + 1):
+        #     denominator += p**i / math.factorial(i)
+        #
+        # for i in range(1, queueLength + 1):
+        #     multiplication = 1
+        #     for j in range(1, i + 1):
+        #         multiplication *= (n * m + j * v)
+        #     denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
+
         for i in range(0, n + 1):
             denominator += p**i / math.factorial(i)
 
+        summ = 0
         for i in range(1, queueLength + 1):
             multiplication = 1
             for j in range(1, i + 1):
-                multiplication *= (n * m + j * v)
-            denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
+                multiplication *= (n * m + l * v)
+            summ += l**i / multiplication
+        denominator += p**n / math.factorial(n) * summ
 
         p0 = 1 / denominator
         probs[n].append(p0)
