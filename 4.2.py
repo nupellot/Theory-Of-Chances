@@ -436,7 +436,7 @@ for i in range(0, len(n)):  # Для каждого n.
         Dk1[i] += 1 / n[i] * (k1[j] - Mk1[i])**2
     for j in range(0, n[i]):
         Sk1[i] += 1 / (n[i] - 1) * (k1[j] - Mk1[i])**2
-    print(n[i], '->', 'M', Mk1[i], 'D', Dk1[i], 'S', Sk1[i])
+    print(n[i], '->', 'M', Mk1[i], 'D', Dk1[i], 'S2', Sk1[i])
 
 Mk2 = [0] * 4  # Выборочное среднее.
 Dk2 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -450,7 +450,7 @@ for i in range(0, len(n)):  # Для каждого n.
         Dk2[i] += 1 / n[i] * (k2[j] - Mk2[i])**2
     for j in range(0, n[i]):
         Sk2[i] += 1 / (n[i] - 1) * (k2[j] - Mk2[i])**2
-    print(n[i], '->', 'M', Mk2[i], 'D', Dk2[i], 'S', Sk2[i])
+    print(n[i], '->', 'M', Mk2[i], 'D', Dk2[i], 'S2', Sk2[i])
 
 MM1 = [0] * 4  # Выборочное среднее.
 DM1 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -464,7 +464,7 @@ for i in range(0, len(n)):  # Для каждого n.
         DM1[i] += 1 / n[i] * (M1[j] - MM1[i])**2
     for j in range(0, n[i]):
         SM1[i] += 1 / (n[i] - 1) * (M1[j] - MM1[i])**2
-    print(n[i], '->', 'M', MM1[i], 'D', DM1[i], 'S', SM1[i])
+    print(n[i], '->', 'M', MM1[i], 'D', DM1[i], 'S2', SM1[i])
 
 MM2 = [0] * 4  # Выборочное среднее.
 DM2 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -478,7 +478,7 @@ for i in range(0, len(n)):  # Для каждого n.
         DM2[i] += 1 / n[i] * (M2[j] - MM2[i])**2
     for j in range(0, n[i]):
         SM2[i] += 1 / (n[i] - 1) * (M2[j] - MM2[i])**2
-    print(n[i], '->', 'M', MM2[i], 'D', DM2[i], 'S', SM2[i])
+    print(n[i], '->', 'M', MM2[i], 'D', DM2[i], 'S2', SM2[i])
 
 
 def covcor(x, y, n, mx, my, sx, sy):
@@ -509,17 +509,21 @@ print('M1 & M2')
 for i in range(0, len(n)):
     covcor(M1, M2, n[i], MM1[i], MM2[i], SM1[i], SM2[i])
 
-# covcor(k1, M1, 10, Mk1[1], MM1[1], Sk1[1], SM1[1])
 
+n = [10, 25, 60]
+t = [[1.81, 3.17], [1.71, 2.79], [1.67, 2.66]]
+def interval(nn, a, mx, sx):
+    left = mx - sx/math.sqrt(n[nn]) * t[nn][a]
+    right = mx + sx/math.sqrt(n[nn]) * t[nn][a]
+    if (a == 0): a = 0.1
+    if (a == 1): a = 0.01
+    print(n[nn], '&', a, left, '< M <', right)
 
-# r = 40
-# collumns = [0] * r
-# interval = 1 / r
-# for i in range(0, len(k1)):
-#     collumns[int(k1[i] // interval)] += 1
-# # Выводим характеристики наших величин
-# x = [i for i in range(0, r)]
-# y = [collumns[i] for i in x]
+print('k1')
+for i in range(0, len(n)):
+    interval(i, 0, Mk1[0], Sk1[0])
+    interval(i, 1, Mk1[0], Sk1[0])
+
 graph.title("Распределение значений k1")  # Название графика.
 graph.xlabel("k1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
