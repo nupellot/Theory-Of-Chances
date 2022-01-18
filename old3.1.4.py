@@ -17,30 +17,19 @@ l = 1 / callPeriod  # Лямбда. [з/с]
 m = 1 / servicePeriod  # Мю. [з/с]
 p = l / m  # Загрузка системы.
 v = 1 / waitingTime  # Ожидание.
-eps = 10**-50
+eps = 10**-2
 
 queueLength = 0
 
 probs = [[] for i in range(0, OPS)]  # Все возможные вероятности.
 # Считаем все возможные вероятности.
-P0s = [[]]
 for n in range(1, OPS):
-    queueLength = 0
-    P0s.append([])
-    while True:  # Увеличиваем длину очереди
+    while True:
         probs[n].clear()
+        queueLength += 1
         denominator = 0
-
         for i in range(0, n + 1):
             denominator += p**i / math.factorial(i)
-
-        # summ = 0
-        # for i in range(1, queueLength + 1):
-        #     multiplication = 1
-        #     for j in range(1, i + 1):
-        #         multiplication *= (n * m + l * v)
-        #     summ += l**i / multiplication
-        # denominator += p**n / math.factorial(n) * summ
 
         # summ = 0
         for i in range(1, queueLength + 1):
@@ -50,12 +39,8 @@ for n in range(1, OPS):
             denominator += l**(n + i) / (m**n * math.factorial(n) * multiplication)
         # denominator += summ
 
-
         p0 = 1 / denominator
         probs[n].append(p0)
-        P0s[n].append(p0)
-        print(p0)
-
         for i in range(1, n + 1):
             probs[n].append(p0 * p**i / math.factorial(i))
         for i in range(1, queueLength + 1):
@@ -63,12 +48,15 @@ for n in range(1, OPS):
             for j in range(1, i + 1):
                 multiplication *= (n * m + j * v)
             probs[n].append(p0 * l**(i + n) / (math.factorial(n) * m**n * multiplication))
-
-        if (len(P0s[n]) >= 2):
-            if (math.fabs(P0s[n][-1] - P0s[n][-2]) < eps): break
-        queueLength += 1
+        if (math.fabs(probs[n][-1] - probs[n][-2]) < eps): break
 
 
+
+    sum = 0
+    for i in range(1, len(probs[n])):
+        sum += probs[n][i]
+        print(' + (', n, ':', i, ') ', probs[n][i])
+    print(sum)
 
 
 # Сохраняем мат. ожидания числа занятых операторов.
@@ -98,25 +86,6 @@ for n in range(1, OPS):
 
 
 
-
-
-# Функция вывода вероятности отказа.
-def drawP0s(n):
-    x = [i for i in range(0, len(P0s[n]))]
-    y = [P0s[n][i] for i in x]
-    graph.title("Зависимость P0 от числа мест в очереди")  # Название графика.
-    graph.xlabel("m")  # Подпись оси абсцисс.
-    graph.ylabel("P0")  # Подпись оси ординат.
-    graph.grid()  # Включение отображения сетки.
-    graph.plot(x, y, label=f"n = {n}")
-    graph.legend()
-for i in range(1, OPS):
-    drawP0s(i)
-graph.show()
-
-
-
-
 # Функция вывода мат. ожидания числа занятых операторов.
 def drawMBusyOps():
     x = [i for i in range(1, OPS)]
@@ -125,7 +94,7 @@ def drawMBusyOps():
     graph.xlabel("n")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.bar(x, y)
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 drawMBusyOps()
 graph.show()
@@ -138,7 +107,7 @@ def drawKBusyOps():
     graph.xlabel("n")  # Подпись оси абсцисс.
     graph.ylabel("K")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.bar(x, y)
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 drawKBusyOps()
 graph.show()
@@ -151,7 +120,7 @@ def drawQueueExists():
     graph.xlabel("n")  # Подпись оси абсцисс.
     graph.ylabel("P")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.bar(x, y)
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 drawQueueExists()
 graph.show()
@@ -164,7 +133,7 @@ def drawMQueueLength():
     graph.xlabel("n")  # Подпись оси абсцисс.
     graph.ylabel("M")  # Подпись оси ординат.
     graph.grid()  # Включение отображения сетки.
-    graph.bar(x, y)
+    graph.plot(x, y, label=f"n = {n}")
     graph.legend()
 drawMQueueLength()
 graph.show()
