@@ -1,6 +1,6 @@
 import pyautogui as pg
 
-for i in range(44, 101):
+for i in range(1, 5):
     # Переход к window
     pg.moveTo(265, 40)
     pg.click()
