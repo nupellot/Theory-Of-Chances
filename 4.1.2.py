@@ -31,9 +31,11 @@ while True:
 
 
 # print(*X, sep = '\n')
-# for i in range(0, len(X)):
-#     print(i, '->', X[i])
-# print('Период:', len(X) - 1 - firstAppearance)
+for i in range(0, len(X)):
+    # print(i, '->', X[i])
+    if (i % 10 == 0): print()
+    print('%2d' % X[i], end = ' ')
+print('\nПериод:', len(X) - 1 - firstAppearance)
 
 # Распределяем значения выданные генератором по значениям
 collumns = [0] * 10
@@ -49,7 +51,7 @@ Xi2 = 0
 for i in range(0, len(collumns)):
     Xi2 += (collumns[i] - n[-1] * p)**2 / (n[-1] * p)
 v = r - 1
-print('Xi2:', Xi2, 'v:', v)
+print('\nXi2:', Xi2, 'v:', v)
 
 
 M = [0] * 5  # Выборочное среднее.
@@ -64,7 +66,7 @@ for i in range(0, len(n)):
         D[i] += 1 / n[i] * (X[j] - M[i])**2
     for j in range(0, n[i]):
         S[i] += 1 / (n[i] - 1) * (X[j] - M[i])**2
-    print(n[i], '->', 'M', M[i], 'D', D[i], 'S', S[i])
+    print(n[i], '->', '[x]', '%.7d' % M[i], '[D]', '%.7d' % D[i], '[S^2]', '%.7d' % S[i])
 
 
 
@@ -76,13 +78,3 @@ graph.xlabel("Номер интервала")  # Подпись оси абсц�
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.bar(x, y)
 graph.show()
-
-#
-# x = [i for i in range(0, len(n))]
-# y = [chanceOfRefuse[n][i] for i in x]
-# graph.plot(x, y)
-# graph.title("Разные характеристики")  # Название графика.
-# graph.xlabel("n")  # Подпись оси абсцисс.
-# graph.ylabel("")  # Подпись оси ординат.
-# graph.grid()  # Включение отображения сетки.
-# graph.show()

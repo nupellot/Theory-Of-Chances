@@ -422,7 +422,7 @@ RGB = [5, 20, 30, 23]
 n = [100, 10, 25, 50]
 
 
-print('\nХарактеристики измеренных величин\n')
+print('\n################# Характеристики измеренных величин ##########################')
 # Характеристики измеренных величин.
 # Первая размерность - величины. Вторая - n
 Mk1 = [0] * 4  # Выборочное среднее.
@@ -438,7 +438,7 @@ for i in range(0, len(n)):  # Для каждого n.
         Dk1[i] += 1 / n[i] * (k1[j] - Mk1[i])**2
     for j in range(0, n[i]):
         Sk1[i] += 1 / (n[i] - 1) * (k1[j] - Mk1[i])**2
-    print(n[i], '->', 'M', Mk1[i], 'D', Dk1[i], 'S2', Sk1[i])
+    print(n[i], '->', '[x]', '%.7f' % Mk1[i], '[D]', '%.7f' % Dk1[i], '[S^2]', '%.7f' % Sk1[i])
 
 Mk2 = [0] * 4  # Выборочное среднее.
 Dk2 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -452,7 +452,7 @@ for i in range(0, len(n)):  # Для каждого n.
         Dk2[i] += 1 / n[i] * (k2[j] - Mk2[i])**2
     for j in range(0, n[i]):
         Sk2[i] += 1 / (n[i] - 1) * (k2[j] - Mk2[i])**2
-    print(n[i], '->', 'M', Mk2[i], 'D', Dk2[i], 'S2', Sk2[i])
+    print(n[i], '->', '[x]', '%.7f' % Mk2[i], '[D]', '%.7f' % Dk2[i], '[S^2]', '%.7f' % Sk2[i])
 
 MM1 = [0] * 4  # Выборочное среднее.
 DM1 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -466,7 +466,7 @@ for i in range(0, len(n)):  # Для каждого n.
         DM1[i] += 1 / n[i] * (M1[j] - MM1[i])**2
     for j in range(0, n[i]):
         SM1[i] += 1 / (n[i] - 1) * (M1[j] - MM1[i])**2
-    print(n[i], '->', 'M', MM1[i], 'D', DM1[i], 'S2', SM1[i])
+    print(n[i], '->', '[x]', '%.7f' % MM1[i], '[D]', '%.7f' % DM1[i], '[S2]', '%.7f' % SM1[i])
 
 MM2 = [0] * 4  # Выборочное среднее.
 DM2 = [0] * 4  # Смещенная выборочная дисперсия.
@@ -480,7 +480,7 @@ for i in range(0, len(n)):  # Для каждого n.
         DM2[i] += 1 / n[i] * (M2[j] - MM2[i])**2
     for j in range(0, n[i]):
         SM2[i] += 1 / (n[i] - 1) * (M2[j] - MM2[i])**2
-    print(n[i], '->', 'M', MM2[i], 'D', DM2[i], 'S2', SM2[i])
+    print(n[i], '->', '[x]', '%.7f' % MM2[i], '[D]', '%.7f' % DM2[i], '[S^2]', '%.7f' % SM2[i])
 
 
 def covcor(x, y, n, mx, my, sx, sy):
@@ -489,10 +489,10 @@ def covcor(x, y, n, mx, my, sx, sy):
         summ += (x[i] - mx) * (y[i] - my)
     cov = summ / (n - 1)
     cor = cov / math.sqrt(sx) / math.sqrt(sy)
-    print(n, '->', cov, cor)
+    print(n, '->', '%.7f' % cov, '%.7f' % cor)
 
-print('\nКовариация и корреляция измеренных величин\n')
-print('          Ковариация              Корреляция')
+print('\n################## Ковариация и корреляция измеренных величин ###################')
+print('       Ковариация  Корреляция')
 print('k1 & k2')
 for i in range(0, len(n)):
     covcor(k1, k2, n[i], Mk1[i], Mk2[i], Sk1[i], Sk2[i])
@@ -513,21 +513,32 @@ for i in range(0, len(n)):
     covcor(M1, M2, n[i], MM1[i], MM2[i], SM1[i], SM2[i])
 
 
-print('\nДоверительные интервалы измеренных величин\n')
+print('\n#################### Доверительные интервалы измеренных величин ##################')
 n = [10, 25, 60]
-t = [[1.81, 3.17], [1.71, 2.79], [1.67, 2.66]]
+t = [[1.83, 3.25], [1.71, 2.80], [1.68, 2.70]]
 def interval(nn, a, mx, sx):
     left = mx - sx/math.sqrt(n[nn]) * t[nn][a]
     right = mx + sx/math.sqrt(n[nn]) * t[nn][a]
     if (a == 0): a = 0.1
     if (a == 1): a = 0.01
-    print(n[nn], '&', a, left, '< M <', right)
+    print('При n =', n[nn], '& a =', a, 'доверительный интервал:', '%.7f' % left, '< M <', '%.7f' % right)
 
 print('k1')
 for i in range(0, len(n)):
     interval(i, 0, Mk1[0], Sk1[0])
     interval(i, 1, Mk1[0], Sk1[0])
-
+print('k2')
+for i in range(0, len(n)):
+    interval(i, 0, Mk2[0], Sk2[0])
+    interval(i, 1, Mk2[0], Sk2[0])
+print('M1')
+for i in range(0, len(n)):
+    interval(i, 0, MM1[0], SM1[0])
+    interval(i, 1, MM1[0], SM1[0])
+print('M2')
+for i in range(0, len(n)):
+    interval(i, 0, MM2[0], SM2[0])
+    interval(i, 1, MM2[0], SM2[0])
 graph.title("Распределение значений k1")  # Название графика.
 graph.xlabel("k1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
