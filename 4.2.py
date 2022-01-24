@@ -541,49 +541,53 @@ for i in range(0, len(n)):
     interval(i, 1, MM2[0], SM2[0])
 
 
-M2Intervals = [[0]*2 for i in range(0, 60)]
-# while True:
-    # Обнуляем все значения
-    # for i in range(len(M2Intervals)):
-    #     M2Intervals[i][0] = 0
-    #     M2Intervals[i][1] = 0
-intLength = 1 / len(M2Intervals)
+
+k1Intervals = [[0]*2 for i in range(0, 30)]
+intLength = 1 / len(k1Intervals)
 # Зададим левые границы интервалов.
-for i in range(0, len(M2Intervals)):
-    M2Intervals[i][0] = 0 + i * intLength
+for i in range(0, len(k1Intervals)):
+    k1Intervals[i][0] = 0 + i * intLength
 # Раскидываем все значения переменной по интервалам.
-for i in range(0, len(M2)):
-    M2Intervals[int(M2[i] // intLength)][1] += 1
+for i in range(0, len(k1)):
+    k1Intervals[int(k1[i] // intLength)][1] += 1
 
 # Идём справа.
-for i in range(len(M2Intervals) - 1, 0, - 1):
-    print('Checked')
-    if (M2Intervals[i][1] < 5):
-        M2Intervals[i - 1][1] += M2Intervals[i][1]
-        M2Intervals.pop(i)
-        print('Removed')
+# for i in range(len(k1Intervals) - 1, int(len(k1Intervals)/2), - 1):
+#     # print('Checked')
+#     if (k1Intervals[i][1] < 5):
+#         k1Intervals[i - 1][1] += k1Intervals[i][1]
+#         k1Intervals.pop(i)
+#         # print('Removed')
 
-    # break;
-    # Проверка на отсутствие интервалов с менее чем пятью значениями.
-    # isOk = true;
-    # for i in range(0, len(M2Intervals)):
-    #     if (M2Intervals[i][1] <= 5) isOk = false
-    # if (isOk): break
+#Идём слева.
+for j in range(2):
+    print()
+    for i in range(0, int(len(k1Intervals) / 2)):
+        print(i, 'Checked')
+        if (k1Intervals[i][1] < 5):
+            k1Intervals[i + 1][1] += k1Intervals[i][1]
+            k1Intervals[i + 1][0] = k1Intervals[i][0]
+            k1Intervals.remove(k1Intervals[i])
+            print(i, 'Removed')
 
 
-for i in range(len(M2Intervals)):
-    print(M2Intervals[i][0], M2Intervals[i][1])
+summ = 0
+for i in range(len(k1Intervals)):
+    print(i, k1Intervals[i][0], k1Intervals[i][1])
+    summ += k1Intervals[i][1]
+print(summ)
 
 # Левые границы интервалов.
-x = [M2Intervals[i][0] for i in range(0, len(M2Intervals))]
+x = [k1Intervals[i][0] for i in range(0, len(k1Intervals))]
 # Номера интервалов.
-intNumber = [i for i in range(0, len(M2Intervals))]
+intNumber = [i for i in range(0, len(k1Intervals))]
 # Количество значений в интервалах.
-y = [M2Intervals[i][1] for i in intNumber]
-graph.title("Распределение M2")  # Название графика.
+y = [k1Intervals[i][1] for i in intNumber]
+graph.title("Распределение k1")  # Название графика.
 graph.xlabel("Границы интервала")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
-graph.bar(intNumber, y, edgecolor="white", color = 'red')
+graph.grid()
+graph.bar(x, y, edgecolor="white", color = 'red', align = 'edge', width = intLength)
 graph.show()
 
 
@@ -592,7 +596,7 @@ graph.xlabel("k1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
 graph.hist(k1, bins = 10)
-# graph.show()
+graph.show()
 
 graph.title("Распределение значений k2")  # Название графика.
 graph.xlabel("k2")  # Подпись оси абсцисс.
