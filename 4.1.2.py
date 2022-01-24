@@ -9,9 +9,10 @@ RGB = [5, 20, 30, 23]
 a = 81
 c = 17
 m = 100
-n = [100, 5, 10, 25, 50]
+# n = [100, 5, 10, 25, 50]
 X0 = B[1]
-
+n = (100, *range(2, 101))
+# print(*n)
 def rand(previousX):
     return (a * previousX + c) % m
 
@@ -39,7 +40,7 @@ print('\nПериод:', len(X) - 1 - firstAppearance)
 
 # Распределяем значения выданные генератором по значениям
 collumns = [0] * 10
-for i in range(0, n[-1]):
+for i in range(0, 50):
     collumns[X[i] // 10] += 1
 
 
@@ -54,11 +55,11 @@ v = r - 1
 print('\nXi2:', Xi2, 'v:', v)
 
 
-M = [0] * 5  # Выборочное среднее.
-D = [0] * 5  # Смещенная выборочная дисперсия.
-S = [0] * 5  # Исправленная выборочная дисперсия.
+M = [0] * len(n)  # Выборочное среднее.
+D = [0] * len(n)  # Смещенная выборочная дисперсия.
+S = [0] * len(n)  # Исправленная выборочная дисперсия.
 
-# Посчитаем все нужные величины для рахных n
+# Посчитаем все нужные величины для разных n
 for i in range(0, len(n)):
     for j in range(0, n[i]):
         M[i] += 1 / n[i] * X[j]
@@ -70,6 +71,7 @@ for i in range(0, len(n)):
 
 
 
+
 # Выводим распределение значений выданных генератором
 x = [i for i in range(0, r)]
 y = [collumns[i] for i in x]
@@ -77,4 +79,28 @@ graph.title("Распределение значений выданных ген
 graph.xlabel("Номер интервала")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.bar(x, y)
+graph.show()
+
+
+x = [i for i in range(5, len(n))]
+y = [D[i] for i in x]
+graph.plot(x, y, label=f"D")
+y = [S[i] for i in x]
+graph.plot(x, y, label=f"S")
+y = [D[0] for i in x]
+graph.plot(x, y, label=f"D[100]")
+graph.legend()
+graph.title("")  # Название графика.
+graph.xlabel("n")  # Подпись оси абсцисс.
+graph.ylabel("")  # Подпись оси ординат.
+graph.grid()  # Включение отображения сетки.
+graph.show()
+
+y = [math.fabs(D[i] - S[i]) for i in x]
+graph.plot(x, y, label=f"|D[n] - S[n]|")
+graph.legend()
+graph.title("")  # Название графика.
+graph.xlabel("n")  # Подпись оси абсцисс.
+graph.ylabel("")  # Подпись оси ординат.
+graph.grid()  # Включение отображения сетки.
 graph.show()

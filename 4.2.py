@@ -539,30 +539,30 @@ print('M2')
 for i in range(0, len(n)):
     interval(i, 0, MM2[0], SM2[0])
     interval(i, 1, MM2[0], SM2[0])
+
+
 graph.title("Распределение значений k1")  # Название графика.
 graph.xlabel("k1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
-graph.hist(k1, bins = 6)
+graph.hist(k1, bins = 10)
 graph.show()
 
 graph.title("Распределение значений k2")  # Название графика.
 graph.xlabel("k2")  # Подпись оси абсцисс.
-graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
-graph.grid()
-graph.hist(k2, bins = 6)
-graph.show()
+graph.hist(k2, bins = 11)
+# graph.show()
 
 graph.title("Распределение значений M1")  # Название графика.
 graph.xlabel("M1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
 graph.hist(M1, bins = 6)
-graph.show()
+# graph.show()
 
 graph.title("Распределение значений M2")  # Название графика.
 graph.xlabel("M2")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
 graph.hist(M2, bins = 4)
-graph.show()
+# graph.show()

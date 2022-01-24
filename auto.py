@@ -1,6 +1,7 @@
 import pyautogui as pg
 
-for i in range(1, 5):
+for i in range(1, 3):
+    # print('Меняем значение rnd')
     # Переход к window
     pg.moveTo(265, 40)
     pg.click()
@@ -13,7 +14,7 @@ for i in range(1, 5):
     amountOfSymbols = 1
     if (i > 10): amountOfSymbols += 1
     pg.press('backspace', presses = amountOfSymbols)
-    print('Lol')
+    print('Next iteration')
     pg.typewrite(str(i))
     pg.hotkey('alt', 'ctrl', 'r')
     # Переход в начало отчёта GPSS   1
@@ -22,19 +23,28 @@ for i in range(1, 5):
     pg.press('down', presses = 39)
     pg.press('right', presses = 27)
     # Выделяем значение.
+    # print('Выделяем')
+    # print('Нажали шифт')
     pg.keyDown('shift')
     pg.press('right', presses = 5)
+    # print('Отпустили шифт')
     pg.keyUp('shift')
+
     # Копируем значение.
+    # print('Копируем')
+    # print('Нажали ctrl')
     pg.keyDown('ctrl')
     pg.press('c')
+    print('Отпустили ctrl')
     pg.keyUp('ctrl')
     pg.click()
     # Переходим в окно excel'a.
+    # print('Переносим')
     pg.moveTo(995, 122)
     pg.click(clicks = 4)
     pg.press('down', presses = i - 1)
     # Вставляем значение.
+    # print('Вставляем')
     pg.keyDown('ctrl')
     pg.press('v')
     pg.keyUp('ctrl')
