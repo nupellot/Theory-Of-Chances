@@ -541,16 +541,6 @@ for i in range(0, len(n)):
     interval(i, 1, MM2[0], SM2[0])
 
 
-
-k1Intervals = [[0]*2 for i in range(0, 30)]
-intLength = 1 / len(k1Intervals)
-# Зададим левые границы интервалов.
-for i in range(0, len(k1Intervals)):
-    k1Intervals[i][0] = 0 + i * intLength
-# Раскидываем все значения переменной по интервалам.
-for i in range(0, len(k1)):
-    k1Intervals[int(k1[i] // intLength)][1] += 1
-
 # Идём справа.
 # for i in range(len(k1Intervals) - 1, int(len(k1Intervals)/2), - 1):
 #     # print('Checked')
@@ -559,17 +549,34 @@ for i in range(0, len(k1)):
 #         k1Intervals.pop(i)
 #         # print('Removed')
 
-#Идём слева.
-for j in range(2):
-    print()
-    for i in range(0, int(len(k1Intervals) / 2)):
-        print(i, 'Checked')
-        if (k1Intervals[i][1] < 5):
-            k1Intervals[i + 1][1] += k1Intervals[i][1]
-            k1Intervals[i + 1][0] = k1Intervals[i][0]
-            k1Intervals.remove(k1Intervals[i])
-            print(i, 'Removed')
+# #Идём слева.
+# for j in range(2):
+#     print()
+#     for i in range(0, int(len(k1Intervals) / 2)):
+#         print(i, 'Checked')
+#         if (k1Intervals[i][1] < 5):
+#             k1Intervals[i + 1][1] += k1Intervals[i][1]
+#             k1Intervals[i + 1][0] = k1Intervals[i][0]
+#             k1Intervals.remove(k1Intervals[i])
+#             print(i, 'Removed')
 
+
+
+
+
+
+k1Intervals = [[0]*2 for i in range(0, 70)]
+intLength = 1 / len(k1Intervals)
+# Зададим левые границы интервалов.
+for i in range(0, len(k1Intervals)):
+    k1Intervals[i][0] = 0 + i * intLength
+# Раскидываем все значения переменной по интервалам.
+for i in range(0, len(k1)):
+    k1Intervals[int(k1[i] // intLength)][1] += 1
+
+for i in range(0, len(k1Intervals)):
+    if k1Intervals[i][1] < 5:
+        k1Intervals[i][1] = 0
 
 summ = 0
 for i in range(len(k1Intervals)):
@@ -577,26 +584,94 @@ for i in range(len(k1Intervals)):
     summ += k1Intervals[i][1]
 print(summ)
 
+
+
+k2Intervals = [[0]*2 for i in range(0, 50)]
+intLength = 1 / len(k2Intervals)
+# Зададим левые границы интервалов.
+for i in range(0, len(k2Intervals)):
+    k2Intervals[i][0] = 0 + i * intLength
+# Раскидываем все значения переменной по интервалам.
+for i in range(0, len(k2)):
+    k2Intervals[int(k2[i] // intLength)][1] += 1
+
+for i in range(0, len(k2Intervals)):
+    if k2Intervals[i][1] < 5:
+        k2Intervals[i][1] = 0
+
+
+M1Intervals = [[0]*2 for i in range(0, 50)]
+intLength = 1 / len(M1Intervals)
+# Зададим левые границы интервалов.
+for i in range(0, len(M1Intervals)):
+    M1Intervals[i][0] = 0 + i * intLength
+# Раскидываем все значения переменной по интервалам.
+for i in range(0, len(M1)):
+    M1Intervals[int(M1[i] // intLength)][1] += 1
+
+for i in range(0, len(M1Intervals)):
+    if M1Intervals[i][1] < 5:
+        M1Intervals[i][1] = 0
+
+summ = 0
+for i in range(len(M1Intervals)):
+    print(i, M1Intervals[i][0], M1Intervals[i][1])
+    summ += M1Intervals[i][1]
+print(summ)
+
+
+
 # Левые границы интервалов.
-x = [k1Intervals[i][0] for i in range(0, len(k1Intervals))]
+x = [k1Intervals[i][0] for i in range(50, len(k1Intervals))]
 # Номера интервалов.
-intNumber = [i for i in range(0, len(k1Intervals))]
+intNumber = [i for i in range(50, len(k1Intervals))]
 # Количество значений в интервалах.
 y = [k1Intervals[i][1] for i in intNumber]
 graph.title("Распределение k1")  # Название графика.
 graph.xlabel("Границы интервала")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
-graph.bar(x, y, edgecolor="white", color = 'red', align = 'edge', width = intLength)
+graph.bar(x, y, edgecolor="white", color = 'red', align = 'edge', width = 1 / len(k1Intervals))
 graph.show()
+
+# Левые границы интервалов.
+x = [k2Intervals[i][0] for i in range(0, len(k2Intervals) - 20)]
+# Номера интервалов.
+intNumber = [i for i in range(0, len(k2Intervals) - 20)]
+# Количество значений в интервалах.
+y = [k2Intervals[i][1] for i in intNumber]
+graph.title("Распределение k2")  # Название графика.
+graph.xlabel("Границы интервала")  # Подпись оси абсцисс.
+graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
+graph.grid()
+graph.bar(x, y, edgecolor="white", color = 'red', align = 'edge', width = 1 / len(k2Intervals))
+graph.show()
+
+# Левые границы интервалов.
+x = [M1Intervals[i][0] for i in range(0, len(M1Intervals) - 30)]
+# Номера интервалов.
+intNumber = [i for i in range(0, len(M1Intervals) - 30)]
+# Количество значений в интервалах.
+y = [M1Intervals[i][1] for i in intNumber]
+graph.title("Распределение M1")  # Название графика.
+graph.xlabel("Границы интервала")  # Подпись оси абсцисс.
+graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
+graph.grid()
+graph.bar(x, y, edgecolor="white", color = 'red', align = 'edge', width = 1 / len(M1Intervals))
+graph.show()
+
+
+
+
+
 
 
 graph.title("Распределение значений k1")  # Название графика.
 graph.xlabel("k1")  # Подпись оси абсцисс.
 graph.ylabel("Кол-во значений в интервале")  # Подпись оси ординат.
 graph.grid()
-graph.hist(k1, bins = 10)
-graph.show()
+graph.hist(k1, bins = 11)
+# graph.show()
 
 graph.title("Распределение значений k2")  # Название графика.
 graph.xlabel("k2")  # Подпись оси абсцисс.
