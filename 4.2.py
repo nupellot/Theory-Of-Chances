@@ -541,21 +541,29 @@ for i in range(0, len(n)):
     interval(i, 1, MM2[0], SM2[0])
 
 
-M2Intervals = [[0]*2 for i in range(0, 75)]
-while True:
+M2Intervals = [[0]*2 for i in range(0, 60)]
+# while True:
     # Обнуляем все значения
-    for i in range(len(M2Intervals)):
-        M2Intervals[i][0] = 0
-        M2Intervals[i][1] = 0
-    intLength = 1 / len(M2Intervals)
-    # Зададим левые границы интервалов.
-    for i in range(0, len(M2Intervals)):
-        M2Intervals[i][0] = 0 + i * intLength
-    # Раскидываем все значения переменной по интервалам.
-    for i in range(0, len(M2)):
-        M2Intervals[int(M2[i] // intLength)][1] += 1
+    # for i in range(len(M2Intervals)):
+    #     M2Intervals[i][0] = 0
+    #     M2Intervals[i][1] = 0
+intLength = 1 / len(M2Intervals)
+# Зададим левые границы интервалов.
+for i in range(0, len(M2Intervals)):
+    M2Intervals[i][0] = 0 + i * intLength
+# Раскидываем все значения переменной по интервалам.
+for i in range(0, len(M2)):
+    M2Intervals[int(M2[i] // intLength)][1] += 1
 
-    break;
+# Идём справа.
+for i in range(len(M2Intervals) - 1, 0, - 1):
+    print('Checked')
+    if (M2Intervals[i][1] < 5):
+        M2Intervals[i - 1][1] += M2Intervals[i][1]
+        M2Intervals.pop(i)
+        print('Removed')
+
+    # break;
     # Проверка на отсутствие интервалов с менее чем пятью значениями.
     # isOk = true;
     # for i in range(0, len(M2Intervals)):
